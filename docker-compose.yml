@@ -1,0 +1,27 @@
+﻿version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: cloudpulse_app
+    ports:
+      - "8080:5000"
+    environment:
+      - APP_ENV=Staging
+      - NODE_NAME=Compose-Gateway
+    depends_on:
+      - cache_db
+    networks:
+      - pulse_net
+
+  cache_db:
+    image: redis:7.2-alpine
+    container_name: cloudpulse_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - pulse_net
+
+networks:
+  pulse_net:
+    driver: bridge
